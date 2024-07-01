@@ -15,7 +15,7 @@ public class Role extends BaseModel implements Serializable {
 
 
     @TableId(type = IdType.ASSIGN_UUID)
-    private String roleId;
+    private String id;
 
     private String roleName;
 

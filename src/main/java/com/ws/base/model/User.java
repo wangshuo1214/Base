@@ -14,7 +14,7 @@ import java.util.List;
 public class User extends BaseModel implements Serializable {
 
     @TableId(type = IdType.ASSIGN_UUID)
-    private String userId;
+    private String id;
 
     private String deptId;
 

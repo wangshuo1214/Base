@@ -16,7 +16,7 @@ public class Menu extends BaseModel implements Serializable {
 
 
     @TableId(type = IdType.ASSIGN_UUID)
-    private String menuId;
+    private String id;
 
     private String menuName;
 
