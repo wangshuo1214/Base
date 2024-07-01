@@ -18,7 +18,7 @@ public class UserController extends BaseController{
     private IUserService iUserService;
 
     @PostMapping("/add")
-    public Result addBmUser(@RequestBody User user){
+    public Result addUser(@RequestBody User user){
         return computeResult(iUserService.addUser(user));
     }
 
@@ -35,7 +35,7 @@ public class UserController extends BaseController{
     }
 
     @PostMapping("/update")
-    public Result updateBmUser(@RequestBody User user){
+    public Result updateUser(@RequestBody User user){
         return computeResult(iUserService.updateUser(user));
     }
 

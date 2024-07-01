@@ -17,7 +17,7 @@ public class RoleController extends BaseController{
     private IRoleService iRoleService;
 
     @PostMapping("/add")
-    public Result addBmRole(@RequestBody Role role){
+    public Result addRole(@RequestBody Role role){
         return computeResult(iRoleService.addRole(role));
     }
 

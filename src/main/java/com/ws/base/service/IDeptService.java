@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface IDeptService extends IService<Dept> {
 
-    boolean addDept(Dept bmDept);
+    boolean addDept(Dept dept);
 
-    List<Dept> queryDept(Dept bmDept);
+    List<Dept> queryDept(Dept dept);
 
     boolean deleteDept(String id);
 

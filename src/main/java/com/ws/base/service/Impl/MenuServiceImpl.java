@@ -53,8 +53,8 @@ public class MenuServiceImpl  extends ServiceImpl<MenuMapper, Menu> implements I
         wrapper.lambda().eq(Menu::getParentId,menu.getParentId());
         wrapper.lambda().eq(Menu::getMenuName,menu.getMenuName().trim());
         wrapper.lambda().eq(Menu::getDeleted,BaseConstant.FALSE);
-        List<Menu> repeatBmMenus = list(wrapper);
-        if (CollUtil.isNotEmpty(repeatBmMenus)){
+        List<Menu> repeatMenus = list(wrapper);
+        if (CollUtil.isNotEmpty(repeatMenus)){
             throw new BaseException(HttpStatus.BAD_REQUEST,MessageUtil.getMessage("menu.nameRepeat"));
         }
 
@@ -220,10 +220,10 @@ public class MenuServiceImpl  extends ServiceImpl<MenuMapper, Menu> implements I
                 QueryWrapper<Menu> wrapper = new QueryWrapper<>();
                 wrapper.lambda().in(Menu::getId,menuIds);
                 wrapper.lambda().orderByAsc(Menu::getOrderNum).orderByDesc(Menu::getUpdateDate);
-                List<Menu> bmMenus = list(wrapper);
-                bmMenus.stream().filter(bmMenu -> bmMenu.getMenuType() != "B").collect(Collectors.toList());
-                if (CollUtil.isNotEmpty(bmMenus)){
-                    return buildMenus(buildMenuTree(bmMenus));
+                List<Menu> menus = list(wrapper);
+                menus.stream().filter(menu -> menu.getMenuType() != "B").collect(Collectors.toList());
+                if (CollUtil.isNotEmpty(menus)){
+                    return buildMenus(buildMenuTree(menus));
                 }
             }
         }

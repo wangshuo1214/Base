@@ -81,8 +81,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         List<User> result = list(wrapper);
         if (CollUtil.isNotEmpty(result)){
             result.stream().forEach(u ->{
-                Dept bmDept = deptMapper.selectById(u.getDeptId());
-                u.setDeptName(bmDept.getDeptName());
+                Dept dept = deptMapper.selectById(u.getDeptId());
+                u.setDeptName(dept.getDeptName());
             });
         }
         return result;
@@ -101,9 +101,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         if (CollUtil.isEmpty(delList)){
             throw new BaseException(HttpStatus.BAD_REQUEST, MessageUtil.getMessage("paramsError"));
         }
-        delList.forEach(bmUser -> {
-            bmUser.setDeleted(BaseConstant.TRUE);
-            bmUser.setUpdateDate(new Date());
+        delList.forEach(user -> {
+            user.setDeleted(BaseConstant.TRUE);
+            user.setUpdateDate(new Date());
         });
         return updateBatchById(delList);
     }
@@ -113,15 +113,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         if (checkFiled(newUser)){
             throw new BaseException(HttpStatus.BAD_REQUEST, MessageUtil.getMessage("paramsError"));
         }
-        User oldBmUser = getById(newUser.getId());
-        if (!updateFlag(newUser,oldBmUser)){
-            oldBmUser.setRealName(newUser.getRealName());
-            oldBmUser.setDeptId(newUser.getDeptId());
-            oldBmUser.setStatus(newUser.getStatus());
-            oldBmUser.setRemark(newUser.getRemark());
-            oldBmUser.setUpdateDate(new Date());
+        User oldUser = getById(newUser.getId());
+        if (!updateFlag(newUser,oldUser)){
+            oldUser.setRealName(newUser.getRealName());
+            oldUser.setDeptId(newUser.getDeptId());
+            oldUser.setStatus(newUser.getStatus());
+            oldUser.setRemark(newUser.getRemark());
+            oldUser.setUpdateDate(new Date());
         }
-        return updateById(oldBmUser);
+        return updateById(oldUser);
     }
 
     @Override
@@ -233,8 +233,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         if (CollUtil.isNotEmpty(roleIds)){
             StringBuffer sb = new StringBuffer("");
             for (int i =0; i < roleIds.size(); i++){
-                Role bmRole = roleMapper.selectById(roleIds.get(i));
-                sb.append(bmRole.getRoleName());
+                Role role = roleMapper.selectById(roleIds.get(i));
+                sb.append(role.getRoleName());
                 if ((i + 1) != roleIds.size()){
                     sb.append("、");
                 }

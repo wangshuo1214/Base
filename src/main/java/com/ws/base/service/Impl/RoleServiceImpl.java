@@ -54,15 +54,15 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
 
         //插入角色菜单表
         if(CollUtil.isNotEmpty(role.getMenuIds())){
-            List<RoleMenu> bmRoleMenus = new ArrayList<>();
+            List<RoleMenu> roleMenus = new ArrayList<>();
             role.getMenuIds().forEach(menuId -> {
                 RoleMenu roleMenu = new RoleMenu();
                 roleMenu.setId(UUID.randomUUID().toString());
                 roleMenu.setRoleId(role.getId());
                 roleMenu.setMenuId(menuId);
-                bmRoleMenus.add(roleMenu);
+                roleMenus.add(roleMenu);
             });
-            roleMenuMapper.batchAddRoleMenu(bmRoleMenus);
+            roleMenuMapper.batchAddRoleMenu(roleMenus);
         }
         return save(role);
     }
@@ -90,8 +90,8 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
         if (ObjectUtil.isNull(role) || StrUtil.equals(role.getDeleted(), BaseConstant.TRUE)){
             throw new BaseException(HttpStatus.BAD_REQUEST, MessageUtil.getMessage("role.notexist"));
         }
-        List<RoleMenu> bmRoles = roleMenuMapper.selectRoleMenuByRoleId(id);
-        role.setMenuIds(bmRoles.stream().map(RoleMenu::getMenuId).collect(Collectors.toList()));
+        List<RoleMenu> roles = roleMenuMapper.selectRoleMenuByRoleId(id);
+        role.setMenuIds(roles.stream().map(RoleMenu::getMenuId).collect(Collectors.toList()));
         return role;
     }
 

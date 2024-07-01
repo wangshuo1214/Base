@@ -16,7 +16,7 @@ public interface IRoleService extends IService<Role> {
 
     boolean deleteRole(List<String> ids);
 
-    int allocatedUsers(Role bmRole);
+    int allocatedUsers(Role role);
 
-    int unAllocatedUsers(Role bmRole);
+    int unAllocatedUsers(Role role);
 }

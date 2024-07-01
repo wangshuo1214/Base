@@ -39,7 +39,7 @@ public class FileUploadUtil {
         } catch (IOException e) {
             throw new BaseException(HttpStatus.ERROR,MessageUtil.getMessage("file.fileUploadError"));
         }
-        return "/bmFile/"+file.getOriginalFilename();
+        return "/file/"+file.getOriginalFilename();
     }
 
     public static final void assertAllowed(MultipartFile file, List<String> allowedExtension) {

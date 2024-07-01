@@ -48,26 +48,26 @@ public interface RoleMenuMapper {
      * 根据角色ID查询关联的菜单id
      *
      * */
-    List<String> selectMenuIdsByRoleId(String bmRoleId);
+    List<String> selectMenuIdsByRoleId(String roleId);
 
     /**
      * 根据角色id集合查询菜单集合
-     * @param bmRoleIds
+     * @param roleIds
      * @return
      */
-    List<String> selectMenuIdsByRoleIds(List<String> bmRoleIds);
+    List<String> selectMenuIdsByRoleIds(List<String> roleIds);
 
     /**
      * 根据角色ids查询关联菜单集合
-     * @param bmRoleIds
+     * @param roleIds
      * @return
      */
-    List<RoleMenu> selectMenusByRoleIds(List<String> bmRoleIds);
+    List<RoleMenu> selectMenusByRoleIds(List<String> roleIds);
 
     /**
      * 根据菜单id查询角色菜单关联关系
-     * @param bmMenuId
+     * @param menuId
      * @return
      */
-    List<RoleMenu> selectRoleMenuByMenuId(String bmMenuId);
+    List<RoleMenu> selectRoleMenuByMenuId(String menuId);
 }

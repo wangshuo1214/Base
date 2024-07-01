@@ -18,13 +18,13 @@ public class MenuController extends BaseController{
     private IMenuService iMenuService;
 
     @PostMapping("/add")
-    public Result addMenu(@RequestBody Menu bmMenu){
-        return computeResult(iMenuService.addMenu(bmMenu));
+    public Result addMenu(@RequestBody Menu menu){
+        return computeResult(iMenuService.addMenu(menu));
     }
 
     @PostMapping("/query")
-    public Result queryMenu(@RequestBody Menu bmMenu){
-        return success(iMenuService.queryMenu(bmMenu));
+    public Result queryMenu(@RequestBody Menu menu){
+        return success(iMenuService.queryMenu(menu));
     }
 
     @GetMapping("/get")
@@ -60,10 +60,10 @@ public class MenuController extends BaseController{
      * 获取菜单下拉树列表以及已经选中的菜单
      */
     @GetMapping("/roleMenuTreeselect")
-    public Result roleMenuTreeselect(String bmRoleId){
+    public Result roleMenuTreeselect(String roleId){
         List<Menu> menus = iMenuService.queryMenu(new Menu());
         Map<String, Object> result = new HashMap<>();
-        result.put("checkedKeys",iMenuService.selectMenuListByRoleId(bmRoleId));
+        result.put("checkedKeys",iMenuService.selectMenuListByRoleId(roleId));
         result.put("menus",iMenuService.buildMenuTreeSelect(menus));
         return success(result);
     }
