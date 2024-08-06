@@ -46,7 +46,7 @@
     <select id="selectMenuIdsByRoleIds" parameterType="String" resultType="String">
         select menu_id from role_menu
         where role_id in
-        <foreach collection="ids" item="id" open="(" separator="," close=")">
+        <foreach collection="roleIds" item="id" open="(" separator="," close=")">
             #{id}
         </foreach>
         and deleted = ${@com.ws.base.constant.BaseConstant@FALSE}

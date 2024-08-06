@@ -25,8 +25,8 @@
         <if test="dictName != null and dictName != ''">dict_name,</if>
         <if test="orderNum != null">order_num,</if>
         <if test="remark != null and remark != ''">remark,</if>
-        <if test="createDate != null">create_date,</if>
-        <if test="updateDate != null">update_date,</if>
+        <if test="createDate != null">create_time,</if>
+        <if test="updateDate != null">update_time,</if>
         <if test="deleted != null and deleted != ''">deleted</if>
         ) values (
         <if test="id != null and id != ''">#{id},</if>
@@ -59,10 +59,10 @@
             </if>
             <if test="params != null and params != '' ">
                 <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
-                    and date_format(create_date,'%y%m%d') &gt;= date_format(#{params.beginDate},'%y%m%d')
+                    and date_format(create_time,'%y%m%d') &gt;= date_format(#{params.beginDate},'%y%m%d')
                 </if>
                 <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
-                    and date_format(create_date,'%y%m%d') &lt;= date_format(#{params.endDate},'%y%m%d')
+                    and date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endDate},'%y%m%d')
                 </if>
             </if>
             <include refid="deleteFlagHql"/>
@@ -112,8 +112,8 @@
         <if test="dictTypeId != null and dictTypeId != ''">dict_type_id,</if>
         <if test="orderNum != null">order_num,</if>
         <if test="remark != null and remark != ''">remark,</if>
-        <if test="createDate != null">create_date,</if>
-        <if test="updateDate != null">update_date,</if>
+        <if test="createDate != null">create_time,</if>
+        <if test="updateDate != null">update_time,</if>
         <if test="deleted != null and deleted != ''">deleted</if>
         ) values (
         <if test="id != null and id != ''">#{id},</if>
@@ -122,8 +122,8 @@
         <if test="dictTypeId != null and dictTypeId != ''">#{dictTypeId},</if>
         <if test="orderNum != null">#{orderNum},</if>
         <if test="remark != null and remark != ''">#{remark},</if>
-        <if test="createDate != null">#{createDate},</if>
-        <if test="updateDate != null">#{updateDate},</if>
+        <if test="createDate != null">#{createTime},</if>
+        <if test="updateDate != null">#{updateTime},</if>
         <if test="deleted != null and deleted != ''">#{deleted}</if>
         )
     </insert>

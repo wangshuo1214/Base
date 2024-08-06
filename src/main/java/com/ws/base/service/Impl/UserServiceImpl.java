@@ -103,7 +103,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         }
         delList.forEach(user -> {
             user.setDeleted(BaseConstant.TRUE);
-            user.setUpdateDate(new Date());
+            user.setUpdateTime(new Date());
         });
         return updateBatchById(delList);
     }
@@ -119,7 +119,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             oldUser.setDeptId(newUser.getDeptId());
             oldUser.setStatus(newUser.getStatus());
             oldUser.setRemark(newUser.getRemark());
-            oldUser.setUpdateDate(new Date());
+            oldUser.setUpdateTime(new Date());
         }
         return updateById(oldUser);
     }
@@ -147,7 +147,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         }
 
         user.setPassword(PasswordUtil.pwdEncrypt(BaseConstant.BASEPASSWORD));
-        user.setUpdateDate(new Date());
+        user.setUpdateTime(new Date());
 
         return updateById(user);
     }
@@ -251,7 +251,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         }
         User old = getById(user.getId());
         old.setRealName(user.getRealName());
-        old.setUpdateDate(new Date());
+        old.setUpdateTime(new Date());
         return updateById(old);
     }
 
@@ -278,7 +278,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             throw new BaseException(HttpStatus.BAD_REQUEST, MessageUtil.getMessage("pwdOldNewNotEqualsError"));
         }
         oldUser.setPassword(PasswordUtil.pwdEncrypt(newPwd));
-        oldUser.setUpdateDate(new Date());
+        oldUser.setUpdateTime(new Date());
 
         redisUtil.deleteObject("userToken:"+oldUser.getId());
 

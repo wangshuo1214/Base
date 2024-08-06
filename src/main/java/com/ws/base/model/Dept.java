@@ -23,10 +23,6 @@ public class Dept extends BaseModel implements Serializable {
 
     private Integer orderNum;
 
-    private String leader;
-
-    private String phone;
-
     /** 子菜单 */
     @TableField(exist = false)
     private List<Dept> children;

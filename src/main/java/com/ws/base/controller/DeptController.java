@@ -28,13 +28,13 @@ public class DeptController extends BaseController{
     }
 
     @GetMapping("/get")
-    public Result getDept(String deptId){
-        return success(iDeptService.getDept(deptId));
+    public Result getDept(String id){
+        return success(iDeptService.getDept(id));
     }
 
     @PostMapping("/delete")
-    public Result deleteDept(String deptId){
-        return computeResult(iDeptService.deleteDept(deptId));
+    public Result deleteDept(String id){
+        return computeResult(iDeptService.deleteDept(id));
     }
 
     @PostMapping("/update")
@@ -43,8 +43,8 @@ public class DeptController extends BaseController{
     }
 
     @PostMapping("/exclude")
-    public Result queryDeptExcludeChild(String deptId){
-        return success(iDeptService.queryDeptExcludeChild(deptId));
+    public Result queryDeptExcludeChild(String id){
+        return success(iDeptService.queryDeptExcludeChild(id));
     }
 
     @GetMapping("/deptTree")

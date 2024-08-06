@@ -113,7 +113,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
             oldRole.setOrderNum(newRole.getOrderNum());
             oldRole.setMenuCheckStrictly(newRole.getMenuCheckStrictly());
             oldRole.setRemark(newRole.getRemark());
-            oldRole.setUpdateDate(new Date());
+            oldRole.setUpdateTime(new Date());
         }
         //单独处理角色关联的菜单
         if(!CollUtil.isEqualList(newRole.getMenuIds(), oldRole.getMenuIds())){
@@ -152,7 +152,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
         }
         roles.forEach(role -> {
             role.setDeleted(BaseConstant.TRUE);
-            role.setUpdateDate(new Date());
+            role.setUpdateTime(new Date());
         });
 
         //删除角色的同时，删除角色菜单的关联关系

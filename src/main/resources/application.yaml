@@ -1,5 +1,7 @@
 server:
   port: 8068
+  servlet:
+    context-path: /base/api
 
 #数据源配置
 spring:
@@ -53,4 +55,11 @@ mybatis-plus:
     call-setters-on-nulls: true
     # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-
+#jwt: data :这个路径是根据JWTUtil中的
+#@ConfigurationProperties("jwt.data")配置的
+jwt:
+  data:
+    #    jwt加密密钥
+    SECRET: jwt-token-secret
+    #      jwt的过期时间(24h)
+    expiration: 86400000

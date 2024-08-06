@@ -63,7 +63,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements ID
             wrapper.lambda().like(Dept::getDeptName,dept.getDeptName().trim());
         }
         //排序
-        wrapper.lambda().orderByAsc(Dept::getOrderNum).orderByDesc(Dept::getUpdateDate);
+        wrapper.lambda().orderByAsc(Dept::getOrderNum).orderByDesc(Dept::getUpdateTime);
 
         return list(wrapper);
     }
@@ -99,7 +99,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements ID
             throw new BaseException(HttpStatus.BAD_REQUEST,MessageUtil.getMessage("dept.notexist"));
         }
         dept.setDeleted(BaseConstant.TRUE);
-        dept.setUpdateDate(new Date());
+        dept.setUpdateTime(new Date());
         return updateById(dept);
     }
 
@@ -130,8 +130,6 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements ID
             oldDept.setDeptName(newDept.getDeptName());
             oldDept.setParentId(newDept.getParentId());
             oldDept.setOrderNum(newDept.getOrderNum());
-            oldDept.setLeader(newDept.getLeader());
-            oldDept.setPhone(newDept.getPhone());
         }
 
         return updateById(oldDept);
@@ -160,6 +158,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements ID
         }else {
             //查看该部门下的所有子部门
             List<String> excludeIds = getAllChildren(Arrays.asList(id));
+            excludeIds.add(id);
             if (CollUtil.isNotEmpty(excludeIds)){
                 wrapper.lambda().notIn(Dept::getId,excludeIds);
             }
@@ -220,10 +219,6 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements ID
         sb2.append(oldDept.getParentId());
         sb1.append(newDept.getOrderNum());
         sb2.append(oldDept.getOrderNum());
-        sb1.append(newDept.getLeader());
-        sb2.append(oldDept.getLeader());
-        sb1.append(newDept.getPhone());
-        sb2.append(oldDept.getPhone());
         return sb1.toString().equals(sb2.toString());
 
     }

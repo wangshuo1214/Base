@@ -11,10 +11,10 @@ import java.util.Map;
 public class BaseModel {
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    public Date createDate;
+    public Date createTime;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    public Date updateDate;
+    public Date updateTime;
 
     public String deleted;
 

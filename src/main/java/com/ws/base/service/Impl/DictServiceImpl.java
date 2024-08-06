@@ -66,7 +66,7 @@ public class DictServiceImpl implements IDictService {
             old.setDictName(dictType.getDictName());
             old.setOrderNum(dictType.getOrderNum());
             old.setRemark(dictType.getRemark());
-            old.setUpdateDate(new Date());
+            old.setUpdateTime(new Date());
         }
         return dictMapper.updateDictType(old);
     }
@@ -128,7 +128,7 @@ public class DictServiceImpl implements IDictService {
             old.setDictName(dictData.getDictName());
             old.setOrderNum(dictData.getOrderNum());
             old.setRemark(dictData.getRemark());
-            old.setUpdateDate(new Date());
+            old.setUpdateTime(new Date());
         }
 
         return dictMapper.updateDictData(old);

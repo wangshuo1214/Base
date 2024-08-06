@@ -74,7 +74,7 @@ public class MenuServiceImpl  extends ServiceImpl<MenuMapper, Menu> implements I
         if (StrUtil.isNotEmpty(menu.getMenuName())){
             wrapper.lambda().like(Menu::getMenuName,menu.getMenuName().trim());
         }
-        wrapper.lambda().orderByAsc(Menu::getOrderNum).orderByDesc(Menu::getUpdateDate);
+        wrapper.lambda().orderByAsc(Menu::getOrderNum).orderByDesc(Menu::getUpdateTime);
         return list(wrapper);
     }
 
@@ -128,7 +128,7 @@ public class MenuServiceImpl  extends ServiceImpl<MenuMapper, Menu> implements I
             oldMenu.setQuery(newMenu.getQuery());
             oldMenu.setIsCache(newMenu.getIsCache());
             oldMenu.setVisible(newMenu.getVisible());
-            oldMenu.setUpdateDate(new Date());
+            oldMenu.setUpdateTime(new Date());
         }
 
         return updateById(oldMenu);
@@ -154,7 +154,7 @@ public class MenuServiceImpl  extends ServiceImpl<MenuMapper, Menu> implements I
 
         Menu menu = getById(id);
         menu.setDeleted(BaseConstant.TRUE);
-        menu.setUpdateDate(new Date());
+        menu.setUpdateTime(new Date());
 
         return updateById(menu);
     }
@@ -163,7 +163,7 @@ public class MenuServiceImpl  extends ServiceImpl<MenuMapper, Menu> implements I
     public List<Menu> queryMenuExcludeChild(String id) {
         QueryWrapper<Menu> wrapper = new QueryWrapper();
         wrapper.lambda().eq(Menu::getDeleted,BaseConstant.FALSE);
-        wrapper.lambda().orderByAsc(Menu::getOrderNum).orderByDesc(Menu::getUpdateDate);
+        wrapper.lambda().orderByAsc(Menu::getOrderNum).orderByDesc(Menu::getUpdateTime);
         //id为空认为是点击的添加按钮
         if (StrUtil.isEmpty(id)){
             return list(wrapper);
@@ -219,7 +219,7 @@ public class MenuServiceImpl  extends ServiceImpl<MenuMapper, Menu> implements I
             if (CollUtil.isNotEmpty(menuIds)){
                 QueryWrapper<Menu> wrapper = new QueryWrapper<>();
                 wrapper.lambda().in(Menu::getId,menuIds);
-                wrapper.lambda().orderByAsc(Menu::getOrderNum).orderByDesc(Menu::getUpdateDate);
+                wrapper.lambda().orderByAsc(Menu::getOrderNum).orderByDesc(Menu::getUpdateTime);
                 List<Menu> menus = list(wrapper);
                 menus.stream().filter(menu -> menu.getMenuType() != "B").collect(Collectors.toList());
                 if (CollUtil.isNotEmpty(menus)){
@@ -268,7 +268,7 @@ public class MenuServiceImpl  extends ServiceImpl<MenuMapper, Menu> implements I
         wrapper.lambda().select(Menu::getId);
         wrapper.lambda().eq(Menu::getDeleted,BaseConstant.FALSE);
         wrapper.lambda().in(Menu::getParentId,parentIds);
-        wrapper.lambda().orderByAsc(Menu::getOrderNum).orderByDesc(Menu::getUpdateDate);
+        wrapper.lambda().orderByAsc(Menu::getOrderNum).orderByDesc(Menu::getUpdateTime);
         List<String> ids = list(wrapper).stream().map(Menu::getId).collect(Collectors.toList());
         if (CollUtil.isNotEmpty(ids)){
             ids.addAll(getChildren(ids));
