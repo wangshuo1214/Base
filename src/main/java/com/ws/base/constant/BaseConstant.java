@@ -23,9 +23,9 @@ public class BaseConstant {
 
     /** 菜单类型 菜单 */
     public static final String MENU = "M";
-
-    /** 菜单类型 按钮 */
-    public static final String BUTTON = "B";
+//
+//    /** 菜单类型 按钮 */
+//    public static final String BUTTON = "B";
 
     /** 重置密码 */
     public static final String BASEPASSWORD = "666888";

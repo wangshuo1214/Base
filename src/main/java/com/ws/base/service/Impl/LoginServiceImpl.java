@@ -100,13 +100,6 @@ public class LoginServiceImpl implements ILoginService {
             //用户关联角色ids
             List<String> roleIds = userRoleMapper.queryRoleIdsByUserId(userId);
             user.setRoles(roleIds);
-            if (CollUtil.isNotEmpty(roleIds)){
-                //角色关联的菜单集合
-                List<String> menuIds = roleMenuMapper.selectMenuIdsByRoleIds(roleIds);
-                if (CollUtil.isNotEmpty(menuIds)){
-                    user.setPermissions(iMenuService.listByIds(menuIds).stream().map(Menu::getPerms).collect(Collectors.toList()));
-                }
-            }
             if (ObjectUtil.isNotEmpty(user)){
                 return user;
             }

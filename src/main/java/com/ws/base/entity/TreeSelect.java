@@ -1,5 +1,6 @@
 package com.ws.base.entity;
 
+import cn.hutool.core.collection.CollUtil;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.ws.base.model.Dept;
 import com.ws.base.model.Menu;
@@ -24,15 +25,18 @@ public class TreeSelect {
     public TreeSelect(Menu menu) {
         this.id = menu.getId();
         this.label = menu.getMenuName();
-        this.children = menu.getChildren().stream().map(TreeSelect::new).collect(Collectors.toList());
+        if (CollUtil.isNotEmpty(menu.getChildren())) {
+            this.children = menu.getChildren().stream().map(TreeSelect::new).collect(Collectors.toList());
+        }
     }
 
     public TreeSelect(Dept dept) {
         this.id = dept.getId();
         this.label = dept.getDeptName();
-        this.children = dept.getChildren().stream().map(TreeSelect::new).collect(Collectors.toList());
+        if (CollUtil.isNotEmpty(dept.getChildren())) {
+            this.children = dept.getChildren().stream().map(TreeSelect::new).collect(Collectors.toList());
+        }
     }
-
     public TreeSelect(){
 
     }

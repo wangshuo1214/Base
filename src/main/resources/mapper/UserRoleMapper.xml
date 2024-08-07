@@ -52,7 +52,7 @@
     </insert>
 
     <update id="unAllocateUsers" parameterType="String">
-        update user_role set deleted = ${@com.ws.base.constant.BaseConstant@TRUE} , update_date = sysdate()
+        update user_role set deleted = ${@com.ws.base.constant.BaseConstant@TRUE} , update_time = sysdate()
         where role_id = #{roleId} and user_id =
         <foreach collection="userIds" item="userId" open="(" separator="," close=")">
             #{userId}

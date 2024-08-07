@@ -21,12 +21,12 @@
     </insert>
 
     <update id="deleteRoleMenuByRoleId" parameterType="String">
-        update role_menu set deleted = ${@com.ws.base.constant.BaseConstant@TRUE} , update_date = sysdate()
+        update role_menu set deleted = ${@com.ws.base.constant.BaseConstant@TRUE} , update_time = sysdate()
         where role_id  = #{roleId}
     </update>
 
     <update id="deleteRoleMenuByMenuId" parameterType="String">
-        update role_menu set deleted = ${@com.ws.base.constant.BaseConstant@TRUE} , update_date = sysdate()
+        update role_menu set deleted = ${@com.ws.base.constant.BaseConstant@TRUE} , update_time = sysdate()
         where menu_id  = #{menuId}
     </update>
 
@@ -62,7 +62,7 @@
     </select>
 
     <update id="batchDeleteRoleMenuByRoleIds" parameterType="String">
-        update role_menu set deleted = ${@com.ws.base.constant.BaseConstant@TRUE} , update_date = sysdate()
+        update role_menu set deleted = ${@com.ws.base.constant.BaseConstant@TRUE} , update_time = sysdate()
         where role_id  in (#{roleIds})
     </update>
 

@@ -83,13 +83,13 @@
             <if test="dictType != null and dictType != ''">dict_type = #{dictType},</if>
             <if test="orderNum != null">order_num = #{orderNum},</if>
             <if test="remark != null and remark != ''">remark = #{remark},</if>
-            <if test="updateDate != null">update_date = #{updateDate},</if>
+            <if test="updateDate != null">update_time = #{updateTime},</if>
         </set>
         where id = #{id}
     </update>
 
     <update id="deleteDictType" parameterType="String">
-        update dict_type set deleted = ${@com.ws.base.constant.BaseConstant@TRUE} , update_date = sysdate()
+        update dict_type set deleted = ${@com.ws.base.constant.BaseConstant@TRUE} , update_time = sysdate()
         where id in
         <foreach collection="ids" item="id" open="(" separator="," close=")">
             #{id}
@@ -135,7 +135,7 @@
             <if test="dictName != null and dictName != ''">dict_name = #{dictName},</if>
             <if test="orderNum != null">order_num = #{orderNum},</if>
             <if test="remark != null and remark != ''">remark = #{remark},</if>
-            <if test="updateDate != null">update_date = #{updateDate},</if>
+            <if test="updateDate != null">update_time = #{updateTime},</if>
         </set>
         where id = #{id}
     </update>
@@ -161,7 +161,7 @@
     </select>
 
     <update id="deleteDictData" parameterType="String">
-        update dict_data set deleted = ${@com.ws.base.constant.BaseConstant@TRUE} , update_date = sysdate()
+        update dict_data set deleted = ${@com.ws.base.constant.BaseConstant@TRUE} , update_time = sysdate()
         where id in
         <foreach collection="ids" item="id" open="(" separator="," close=")">
             #{id}
@@ -169,7 +169,7 @@
     </update>
 
     <update id="deleteDictDataByType" parameterType="String">
-        update dict_data set deleted = ${@com.ws.base.constant.BaseConstant@TRUE} , update_date = sysdate()
+        update dict_data set deleted = ${@com.ws.base.constant.BaseConstant@TRUE} , update_time = sysdate()
         where dict_type_id = #{id}
     </update>
 

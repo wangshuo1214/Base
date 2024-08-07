@@ -57,12 +57,10 @@ public class MenuServiceImpl  extends ServiceImpl<MenuMapper, Menu> implements I
         if (CollUtil.isNotEmpty(repeatMenus)){
             throw new BaseException(HttpStatus.BAD_REQUEST,MessageUtil.getMessage("menu.nameRepeat"));
         }
-
         //初始化基本属性
         if (!InitFieldUtil.initField(menu)){
             throw new BaseException(HttpStatus.ERROR,MessageUtil.getMessage("initFieldError"));
         }
-
         menu.setId(UUID.randomUUID().toString());
         return save(menu);
     }
@@ -124,7 +122,6 @@ public class MenuServiceImpl  extends ServiceImpl<MenuMapper, Menu> implements I
             oldMenu.setIsFrame(newMenu.getIsFrame());
             oldMenu.setPath(newMenu.getPath());
             oldMenu.setComponent(newMenu.getComponent());
-            oldMenu.setPerms(newMenu.getPerms());
             oldMenu.setQuery(newMenu.getQuery());
             oldMenu.setIsCache(newMenu.getIsCache());
             oldMenu.setVisible(newMenu.getVisible());
@@ -169,6 +166,7 @@ public class MenuServiceImpl  extends ServiceImpl<MenuMapper, Menu> implements I
             return list(wrapper);
         }else {
             List<String> excludeIds = getChildren(Arrays.asList(id));
+            excludeIds.add(id);
             if (CollUtil.isNotEmpty(excludeIds)){
                 wrapper.lambda().notIn(Menu::getId,excludeIds);
             }
@@ -221,8 +219,8 @@ public class MenuServiceImpl  extends ServiceImpl<MenuMapper, Menu> implements I
                 wrapper.lambda().in(Menu::getId,menuIds);
                 wrapper.lambda().orderByAsc(Menu::getOrderNum).orderByDesc(Menu::getUpdateTime);
                 List<Menu> menus = list(wrapper);
-                menus.stream().filter(menu -> menu.getMenuType() != "B").collect(Collectors.toList());
                 if (CollUtil.isNotEmpty(menus)){
+                    // 其中buildMenuTree(menus)是构造出菜单的树结构
                     return buildMenus(buildMenuTree(menus));
                 }
             }
@@ -299,8 +297,6 @@ public class MenuServiceImpl  extends ServiceImpl<MenuMapper, Menu> implements I
         sb2.append(oldMenu.getPath());
         sb1.append(newMenu.getComponent());
         sb2.append(oldMenu.getComponent());
-        sb1.append(newMenu.getPerms());
-        sb2.append(oldMenu.getPerms());
         sb1.append(newMenu.getQuery());
         sb2.append(oldMenu.getQuery());
         sb1.append(newMenu.getIsCache());
@@ -315,18 +311,16 @@ public class MenuServiceImpl  extends ServiceImpl<MenuMapper, Menu> implements I
 
         //非空校验
         if (ObjectUtil.isEmpty(menu) || StrUtil.isEmpty(menu.getMenuType()) ||
-                ((StrUtil.equals(menu.getMenuType(), BaseConstant.CATALOGUE ) || StrUtil.equals(menu.getMenuType(), BaseConstant.MENU)) && (StrUtil.hasEmpty(menu.getMenuName(),menu.getPath(),menu.getIsFrame(),menu.getVisible(),menu.getParentId()) || ObjectUtil.isEmpty(menu.getOrderNum()))) ||
-                (StrUtil.equals(menu.getMenuType(), BaseConstant.BUTTON) && (StrUtil.hasEmpty(menu.getMenuName(),menu.getParentId()) || ObjectUtil.isEmpty(menu.getOrderNum())))
+                ((StrUtil.equals(menu.getMenuType(), BaseConstant.CATALOGUE ) || StrUtil.equals(menu.getMenuType(), BaseConstant.MENU)) && (StrUtil.hasEmpty(menu.getMenuName(),menu.getPath(),menu.getIsFrame(),menu.getVisible(),menu.getParentId()) || ObjectUtil.isEmpty(menu.getOrderNum())))
         ){
             return true;
         }
-        //对菜单类型进行校验,菜单类型只能是 C M B
-        if (!StrUtil.equalsAny(menu.getMenuType(),BaseConstant.CATALOGUE,BaseConstant.MENU,BaseConstant.BUTTON)){
+        //对菜单类型进行校验,菜单类型只能是 C M
+        if (!StrUtil.equalsAny(menu.getMenuType(),BaseConstant.CATALOGUE,BaseConstant.MENU)){
             return true;
         }
-        //选了目录、菜单、按钮其中之一后，有的选项必须为空，此处进行校验
-        if ((StrUtil.equals(menu.getMenuType(), BaseConstant.CATALOGUE) && !StrUtil.hasEmpty(menu.getPath(),menu.getPerms(),menu.getQuery(),menu.getIsCache())) ||
-                (StrUtil.equals(menu.getMenuType(), BaseConstant.BUTTON) && !StrUtil.hasEmpty(menu.getIcon(),menu.getIsFrame(),menu.getPath(),menu.getVisible(),menu.getComponent(),menu.getQuery(),menu.getIsCache()))
+        //选了目录、菜单其中之一后，有的选项必须为空，此处进行校验
+        if ((StrUtil.equals(menu.getMenuType(), BaseConstant.CATALOGUE) && !StrUtil.hasEmpty(menu.getPath(),menu.getQuery(),menu.getIsCache()))
         ){
             return true;
         }
@@ -350,11 +344,12 @@ public class MenuServiceImpl  extends ServiceImpl<MenuMapper, Menu> implements I
             router.setQuery(menu.getQuery());
             router.setMeta(new MetaVo(menu.getMenuName(), menu.getIcon(), StrUtil.equals("1", menu.getIsCache()), menu.getPath()));
             List<Menu> cMenus = menu.getChildren();
-            if (!cMenus.isEmpty() && cMenus.size() > 0 && BaseConstant.CATALOGUE.equals(menu.getMenuType())) {
+            if (CollUtil.isNotEmpty(cMenus) && BaseConstant.CATALOGUE.equals(menu.getMenuType())) {
                 router.setAlwaysShow(true);
                 router.setRedirect("noRedirect");
                 router.setChildren(buildMenus(cMenus));
-            } else if (isMenuFrame(menu)) {
+            }
+            else if (isMenuFrame(menu)) {
                 router.setMeta(null);
                 List<RouterVo> childrenList = new ArrayList<RouterVo>();
                 RouterVo children = new RouterVo();
@@ -377,6 +372,7 @@ public class MenuServiceImpl  extends ServiceImpl<MenuMapper, Menu> implements I
      * @return 路由名称
      */
     public String getRouteName(Menu menu) {
+        // 将字符串的首字母设置为大写
         String routerName = StringUtils.capitalize(menu.getPath());
         // 非外链并且是一级目录（类型为菜单）
         if (isMenuFrame(menu)) {

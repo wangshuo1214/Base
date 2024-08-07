@@ -38,7 +38,7 @@ public class Menu extends BaseModel implements Serializable {
 
     private String visible;
 
-    private String perms;
+//    private String perms;
 
     private String icon;
 
